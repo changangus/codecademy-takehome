@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 
 import './styles.css';
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <div className="app">
+    <div className="flex flex-col">
       <h1>Hello, World!</h1>
       <p>Thanks so much for taking our frontend takehome assessment!</p>
       <p>

@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "^3.1.1"
+    "react-scripts": "^4.0",
+    "typescript": "^3.9.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "format": "prettier --write \"**/*.+(js|json|css|md|mdx|html)\""
   },
   "eslintConfig": {
@@ -28,9 +32,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "prettier": "^1.15.2",
+    "autoprefixer": "^9.8.6",
     "husky": "^1.1.4",
-    "lint-staged": "^8.0.4"
+    "lint-staged": "^8.0.4",
+    "postcss": "^7.0.35",
+    "prettier": "^1.15.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   },
   "keywords": [],
   "description": ""
