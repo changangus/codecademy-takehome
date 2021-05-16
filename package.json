@@ -20,11 +20,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run build"
-    }
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -33,7 +28,6 @@
   ],
   "devDependencies": {
     "autoprefixer": "^9.8.6",
-    "husky": "^6.0.0",
     "lint-staged": "^8.0.4",
     "postcss": "^7.0.35",
     "prettier": "^1.15.2",
