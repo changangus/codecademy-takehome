@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import './styles.css';
+import { Provider } from 'react-redux';
+import App from './App';
 
-const App: React.FC = () => {
-  return (
-    <div className="flex flex-col">
-      <h1>Hello, World!</h1>
-      <p>Thanks so much for taking our frontend takehome assessment!</p>
-      <p>
-        See details in <code>./README.md</code> .
-      </p>
-    </div>
-  );
-};
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>, 
+  document.getElementById('root'));

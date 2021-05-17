@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { iQuestion } from '../types/Question';
 import shuffleAnswers from '../utils/shuffleAnswers';
 import CustomButton from './CustomButton';
-
-interface QuestionProps {
-  text: string,
-  correctAnswer: string,
-  incorrectAnswers: string[]
+export interface QuestionProps {
+  question: iQuestion
 }
 
-const Question: React.FC<QuestionProps> = ({text, correctAnswer, incorrectAnswers}) => {
+const Question: React.FC<QuestionProps> = ({question: {text, correctAnswer, incorrectAnswers}}) => {
+    let [submitted, setSubmitted] = useState<boolean>(false);
+    let [submittedAnswer, setSubmittedAnswer] = useState<string>('');
 
-    let shuffledAnswers = shuffleAnswers([correctAnswer, ...incorrectAnswers]);
-  
+    const shuffledAnswers = shuffleAnswers([correctAnswer, ...incorrectAnswers]);
+    const clickedButton = document.getElementById(submittedAnswer);
+    if(clickedButton && submittedAnswer !== correctAnswer){
+      clickedButton.style.border = '4px solid red';
+      clickedButton.style.background = 'pink';
+      clickedButton.style.textDecoration = 'line-through';
+    }  
     return (
         <div>
-          <h1>{text}</h1>
-          <ol>
+          <h1 className="text-lg sm:text-3xl">{text}</h1>
+          <form className="flex flex-col">
             {shuffledAnswers.map(answer => (
-              <li>{answer}</li>
+              <input 
+                className={`text-xl my-4 p-2 rounded-xl bg-gray-100 cursor-pointer ${submitted && answer === correctAnswer ? 'border-solid border-4 border-green-400 bg-green-200' : 'focus:bg-red-200'}`}
+                key={answer}
+                id={answer}
+                type="button"
+                name="answer"
+                value={answer}
+                onClick={(e:any) => {
+                  setSubmittedAnswer(e.target.value) 
+                  setSubmitted(true)
+                  console.log(answer)
+                }}
+                disabled={submitted}
+                />  
             ))}
-          </ol>
-          <CustomButton>Next</CustomButton>
+          </form> 
+          {submitted &&
+          <div>
+            <CustomButton>Next Question</CustomButton>
+          </div> 
+          }
         </div>
     );
 }
 
-export default Question;
+export default React.memo(Question);
