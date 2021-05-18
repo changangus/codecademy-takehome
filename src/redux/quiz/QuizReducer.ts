@@ -34,6 +34,7 @@ const quizReducer = (
         ...state,
         isFinished: false,
         currentQuestion: 0,
+        correctAnswers: 0
       };
     case QUIZ_FINISHED:
       return {

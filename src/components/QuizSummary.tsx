@@ -24,8 +24,10 @@ const QuizSummary: React.FC<QuizSummaryProps> = ({ totalQuestions }) => {
   };
 
   const handleRetake = () => {
-
-  }
+    dispatch({
+      type: QUIZ_START
+    })
+  };
 
   return (
     <div className="flex flex-col h-3/4 justify-around items-center">

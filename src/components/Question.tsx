@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
+import { QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
+import { setSubmittedAnswer } from '../redux/question/QuestionActions';
 import { NEXT_QUESTION, QUIZ_FINISHED, INCREMENT_SCORE } from '../redux/quiz/DispatchTypes';
 import { RootStore } from '../redux/store';
 import { iQuestion } from '../types/Question';
@@ -14,7 +15,7 @@ export interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, incorrectAnswers }, currentQuestion}) => {
   const submittedAnswer = useSelector<RootStore, questionState["submittedAnswer"]>(state => state.question.submittedAnswer);
   const isSubmitted = useSelector<RootStore, questionState["isSubmitted"]>(state => state.question.isSubmitted);
-  let [answers, setAnswers] = useState<string[]>([])
+  let [answers, setAnswers] = useState<string[]>([]);
   const dispatch = useDispatch();
   const isCorrect = submittedAnswer === correctAnswer;
 
@@ -23,18 +24,13 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
     setAnswers(shuffledAnswers)
   }, [correctAnswer, incorrectAnswers]);
 
-  const handleClick = () => {
-    dispatch({
-      type: SET_SUBMITTED_ANSWER
-    })
-  }
-
   const clickedButton = document.getElementById(submittedAnswer);
-  if (clickedButton && !isCorrect) {
+  if (clickedButton && !isCorrect && isSubmitted) {
     clickedButton.style.border = '2px solid red';
     clickedButton.style.background = 'pink';
     clickedButton.style.textDecoration = 'line-through';
   }
+
   return (
     <div>
       <h1 className="text-lg mb-4 sm:text-3xl">{currentQuestion + 1}. {text}</h1>
@@ -47,9 +43,11 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
             type="button"
             name="answer"
             value={answer}
-            onClick={(e: any) => {
-              
-              console.log(answer)
+            onClick={() => {
+              dispatch(setSubmittedAnswer(answer))
+              dispatch({
+                type: QUESTION_SUBMITTED
+              });
             }}
             disabled={isSubmitted}
           />
