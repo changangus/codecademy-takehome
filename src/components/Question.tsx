@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
+import { QUESTION_SUBMITTED } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
 import { setSubmittedAnswer } from '../redux/question/QuestionActions';
-import { NEXT_QUESTION, QUIZ_FINISHED, INCREMENT_SCORE } from '../redux/quiz/DispatchTypes';
 import { RootStore } from '../redux/store';
 import { iQuestion } from '../types/Question';
 import shuffleAnswers from '../utils/shuffleAnswers';
