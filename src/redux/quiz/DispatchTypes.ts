@@ -4,6 +4,7 @@ export const FIRST_QUIZ = 'FIRST_QUIZ';
 export const QUIZ_START = 'QUIZ_START';
 export const QUIZ_FINISHED = 'QUIZ_FINISHED';
 export const INCREMENT_SCORE = 'INCREMENT_SCORE';
+export const ADD_TO_SUBMITTED_ANSWERS = 'ADD_TO_SUBMITTED_ANSWERS';
 
 interface NextQuiz {
   type: typeof NEXT_QUIZ;
@@ -29,10 +30,16 @@ interface IncrementScore {
   type: typeof INCREMENT_SCORE;
 }
 
+interface AddToSubmittedAnswers {
+  type: typeof ADD_TO_SUBMITTED_ANSWERS,
+  payload: string
+}
+
 export type QuizDispatchTypes =
   | NextQuiz
   | NextQuestion
   | FirstQuiz
   | QuizStart
   | QuizFinished
-  | IncrementScore;
+  | IncrementScore
+  | AddToSubmittedAnswers;

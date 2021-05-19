@@ -6,6 +6,7 @@ import {
   NEXT_QUESTION,
   QuizDispatchTypes,
   QUIZ_START,
+  ADD_TO_SUBMITTED_ANSWERS,
 } from './DispatchTypes';
 
 export interface quizState {
@@ -34,7 +35,8 @@ const quizReducer = (
         ...state,
         isFinished: false,
         currentQuestion: 0,
-        correctAnswers: 0
+        correctAnswers: 0,
+        submittedAnswers: []
       };
     case QUIZ_FINISHED:
       return {
@@ -61,6 +63,11 @@ const quizReducer = (
         ...state,
         correctAnswers: state.correctAnswers + 1,
       };
+    case ADD_TO_SUBMITTED_ANSWERS: 
+      return {
+        ...state,
+        submittedAnswers: [...state.submittedAnswers, action.payload]
+      }
     default:
       return state;
   }

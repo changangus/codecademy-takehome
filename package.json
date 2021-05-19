@@ -34,6 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@testing-library/react": "^11.2.7",
     "lint-staged": "^8.0.4",
     "prettier": "^1.15.2"
   },

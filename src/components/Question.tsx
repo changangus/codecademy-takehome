@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { QUESTION_SUBMITTED } from '../redux/question/DispatchTypes';
+import { QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
-import { setSubmittedAnswer } from '../redux/question/QuestionActions';
 import { RootStore } from '../redux/store';
 import { iQuestion } from '../types/Question';
 import shuffleAnswers from '../utils/shuffleAnswers';
@@ -28,14 +27,17 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
       <form className="flex flex-col">
         {answers.map(answer => (
           <input
-            className={`text-xl my-4 p-2 rounded-xl bg-gray-100 border-solid border-gray-500 border-2 transition-all cursor-pointer ${isSubmitted && answer === correctAnswer ? 'border-solid border-2 border-green-400 bg-green-200' : ''} ${isSubmitted && answer !== correctAnswer && answer === submittedAnswer ? 'border-solid border-2 border-red-400 bg-red-200 line-through' : ''}`}
+            className={`text-md sm:text-xl my-4 p-2 rounded-xl bg-gray-100 border-solid border-gray-500 border-2 transition-all cursor-pointer ${isSubmitted && answer === correctAnswer ? 'border-solid border-2 border-green-400 bg-green-200' : ''} ${isSubmitted && answer !== correctAnswer && answer === submittedAnswer ? 'border-solid border-2 border-red-400 bg-red-200 line-through' : ''}`}
             key={answer}
             id={answer}
             type="button"
             name="answer"
             value={answer}
             onClick={() => {
-              dispatch(setSubmittedAnswer(answer))
+              dispatch({
+                type:SET_SUBMITTED_ANSWER,
+                payload: answer
+              })
               dispatch({
                 type: QUESTION_SUBMITTED
               });

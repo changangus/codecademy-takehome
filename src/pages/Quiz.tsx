@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import Question from '../components/Question';
 import QuizSummary from '../components/QuizSummary';
-import { QUESTION_NOT_SUBMITTED } from '../redux/question/DispatchTypes';
-import { setSubmittedAnswer } from '../redux/question/QuestionActions';
+import { QUESTION_NOT_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
-import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION } from '../redux/quiz/DispatchTypes';
+import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION, ADD_TO_SUBMITTED_ANSWERS } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
 import { iQuiz } from '../types/Quiz';
@@ -24,6 +23,11 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
   const isCorrect = submittedAnswer === questions[currentQuestion].correctAnswer;
   
   const handleClick = () => {
+    // Add to submittedAnswers array:
+    dispatch({
+      type: ADD_TO_SUBMITTED_ANSWERS,
+      payload: submittedAnswer
+    });
     // Check answer:
     if (isCorrect) {
       dispatch({
@@ -33,7 +37,10 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
     dispatch({
       type: QUESTION_NOT_SUBMITTED
     });
-    dispatch(setSubmittedAnswer(''));
+    dispatch({
+      type: SET_SUBMITTED_ANSWER,
+      payload: ''
+    });
     // Check if this is the last question:
     if (currentQuestion >= totalQuestions - 1) {
       dispatch({
@@ -48,8 +55,8 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
   
   return (
     <div className="flex flex-col h-full">
-      <div className="flex flex-col justify-around h-3/4 sm:h-3/5 mt-2 sm:mt-14">
-        <h1 className="flex justify-center text-xl sm:text-5xl w-full">{title}</h1>
+      <div className="flex flex-col justify-around h-4/5 sm:h-3/5 mt-2 sm:mt-14">
+        <h1 className="flex justify-center text-xl mb-4 sm:text-5xl w-full">{title}</h1>
         {isQuizFinished ?
           <QuizSummary totalQuestions={questions.length} />
           : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} />
@@ -58,12 +65,11 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
       {
       isSubmitted && 
       <div className="flex flex-col items-center justify-center">
-        <p className="text-lg my-4">{isCorrect ? 'Correct!' : 'Incorrect...'} </p>
+        <p className="text-lg mt-1">{isCorrect ? 'Correct!' : 'Incorrect...'} </p>
         <CustomButton onClick={handleClick}>Next</CustomButton>
       </div>
       }
     </div>
-
   );
 }
 
