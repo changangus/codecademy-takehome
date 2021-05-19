@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessage } from '../data/messages';
-import { NEXT_QUIZ, QUIZ_START } from '../redux/quiz/DispatchTypes';
+import { quizzes } from '../data/quizzes';
+import { FIRST_QUIZ, NEXT_QUIZ, QUIZ_START } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
 import CustomButton from './CustomButton';
@@ -12,12 +13,20 @@ interface QuizSummaryProps {
 
 const QuizSummary: React.FC<QuizSummaryProps> = ({ totalQuestions }) => {
   const correctAnswers = useSelector<RootStore, quizState["correctAnswers"]>(state => state.quiz.correctAnswers);
+  const currentQuiz = useSelector<RootStore, quizState["currentQuiz"]>((state) => state.quiz.currentQuiz);
   const dispatch = useDispatch();
 
   const handleNext = () => {
-    dispatch({
-      type: NEXT_QUIZ
-    });
+    if(currentQuiz >= quizzes.length - 1){
+      dispatch({
+        type: FIRST_QUIZ
+      })
+    } else {
+      dispatch({
+        type: NEXT_QUIZ
+      });
+    }
+
     dispatch({
       type: QUIZ_START
     });
