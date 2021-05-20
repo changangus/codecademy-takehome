@@ -30,6 +30,7 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
             className={`text-md sm:text-xl my-4 p-2 rounded-xl bg-gray-100 border-solid border-gray-500 border-2 transition-all cursor-pointer ${isSubmitted && answer === correctAnswer ? 'border-solid border-2 border-green-400 bg-green-200' : ''} ${isSubmitted && answer !== correctAnswer && answer === submittedAnswer ? 'border-solid border-2 border-red-400 bg-red-200 line-through' : ''}`}
             key={answer}
             id={answer}
+            data-testid={`${answer} answer`}
             type="button"
             name="answer"
             value={answer}

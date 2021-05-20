@@ -21,7 +21,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
   const dispatch = useDispatch();
   const totalQuestions = questions.length;
   const isCorrect = submittedAnswer === questions[currentQuestion].correctAnswer;
-  
+
   const handleClick = () => {
     // Add to submittedAnswers array:
     dispatch({
@@ -52,22 +52,23 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
       });
     }
   }
-  
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" >
       <div className="flex flex-col justify-around h-4/5 sm:h-3/5 mt-2 sm:mt-14">
         <h1 className="flex justify-center text-xl mb-4 sm:text-5xl w-full">{title}</h1>
-        {isQuizFinished ?
-          <QuizSummary totalQuestions={questions.length} />
-          : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} />
+        {
+          isQuizFinished ?
+            <QuizSummary totalQuestions={questions.length} />
+            : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} />
         }
       </div>
       {
-      isSubmitted && 
-      <div className="flex flex-col items-center justify-center">
-        <p className="text-lg mt-1">{isCorrect ? 'Correct!' : 'Incorrect...'} </p>
-        <CustomButton onClick={handleClick}>Next</CustomButton>
-      </div>
+        isSubmitted &&
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-lg mt-1 sm:my-4" data-testid="question-response">{isCorrect ? 'Correct!' : 'Incorrect...'} </p>
+          <CustomButton onClick={handleClick}>Next</CustomButton>
+        </div>
       }
     </div>
   );
