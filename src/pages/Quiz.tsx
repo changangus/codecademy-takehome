@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import Question from '../components/Question';
 import QuizSummary from '../components/QuizSummary';
-import { QUESTION_NOT_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
+import { RESET_QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
 import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION, ADD_TO_SUBMITTED_ANSWERS } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
@@ -35,7 +35,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
       });
     }
     dispatch({
-      type: QUESTION_NOT_SUBMITTED
+      type: RESET_QUESTION_SUBMITTED
     });
     dispatch({
       type: SET_SUBMITTED_ANSWER,
@@ -60,7 +60,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
         {
           isQuizFinished ?
             <QuizSummary totalQuestions={questions.length} />
-            : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} />
+            : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
         }
       </div>
       {

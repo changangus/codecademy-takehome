@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
-import { questionState } from '../redux/question/QuestionReducer';
-import { RootStore } from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { IS_QUESTIONSUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { iQuestion } from '../types/Question';
 import shuffleAnswers from '../utils/shuffleAnswers';
 export interface QuestionProps {
   question: iQuestion
   currentQuestion: number
+  submittedAnswer: string,
+  isSubmitted: boolean
 }
 
-const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, incorrectAnswers }, currentQuestion}) => {
-  const submittedAnswer = useSelector<RootStore, questionState["submittedAnswer"]>(state => state.question.submittedAnswer);
-  const isSubmitted = useSelector<RootStore, questionState["isSubmitted"]>(state => state.question.isSubmitted);
+const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, incorrectAnswers }, currentQuestion, isSubmitted, submittedAnswer }) => {
   let [answers, setAnswers] = useState<string[]>([]);
   const dispatch = useDispatch();
 
@@ -27,7 +25,7 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
       <form className="flex flex-col">
         {answers.map(answer => (
           <input
-            className={`text-md sm:text-xl my-4 p-2 rounded-xl bg-gray-100 border-solid border-gray-500 border-2 transition-all cursor-pointer ${isSubmitted && answer === correctAnswer ? 'border-solid border-2 border-green-400 bg-green-200' : ''} ${isSubmitted && answer !== correctAnswer && answer === submittedAnswer ? 'border-solid border-2 border-red-400 bg-red-200 line-through' : ''}`}
+            className={`text-md sm:text-xl my-4 p-2 rounded-xl bg-gray-100 border-solid border-gray-500 border-2 transition-all cursor-pointer ${isSubmitted && answer === correctAnswer ? 'border-green-400 bg-green-200' : ''} ${isSubmitted && answer !== correctAnswer && answer === submittedAnswer ? 'border-red-400 bg-red-200 line-through' : ''}`}
             key={answer}
             id={answer}
             data-testid={`${answer} answer`}
@@ -36,11 +34,11 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
             value={answer}
             onClick={() => {
               dispatch({
-                type:SET_SUBMITTED_ANSWER,
+                type: SET_SUBMITTED_ANSWER,
                 payload: answer
               })
               dispatch({
-                type: QUESTION_SUBMITTED
+                type: IS_QUESTIONSUBMITTED
               });
             }}
             disabled={isSubmitted}
