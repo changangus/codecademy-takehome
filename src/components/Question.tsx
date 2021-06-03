@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { IS_QUESTIONSUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { iQuestion } from '../types/Question';
-import shuffleAnswers from '../utils/shuffleAnswers';
+import shuffle from '../utils/shuffleAnswers';
 export interface QuestionProps {
   question: iQuestion
   currentQuestion: number
@@ -15,8 +15,8 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const shuffledAnswers = shuffleAnswers([correctAnswer, ...incorrectAnswers]);
-    setAnswers(shuffledAnswers)
+    const shuffledAnswers = shuffle([correctAnswer, ...incorrectAnswers]);
+    setAnswers(shuffledAnswers as string[])
   }, [correctAnswer, incorrectAnswers]);
 
   return (

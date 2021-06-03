@@ -20,16 +20,17 @@ const renderWithRedux = (
 
 describe("Testing when user submits a question answer", () => {
   it('is correct', async () => {
-    const { getByTestId, getByText } = renderWithRedux(<App />);
+    const { getByTestId } = renderWithRedux(<App />);
 
-    fireEvent.click(getByText('h1'));
-    expect(getByTestId('question-response')).toHaveTextContent('Correct!')
+    fireEvent.click(getByTestId('h1 answer'));
+    expect(getByTestId('question-response')).toHaveTextContent('Correct!');
+
   });
 
   it('is incorrect', () => {
-    const { getByTestId, getByText } = renderWithRedux(<App />);
+    const { getByTestId } = renderWithRedux(<App />);
 
-    fireEvent.click(getByText('p'));
+    fireEvent.click(getByTestId('p answer'));
     expect(getByTestId('question-response')).toHaveTextContent('Incorrect...')
   })
 });

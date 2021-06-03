@@ -1,4 +1,6 @@
-const shuffleAnswers = (array: string[]) => {
+import { iQuestion } from '../types/Question';
+
+const shuffle = (array: string[] | iQuestion[]) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const temp = array[i];
@@ -6,7 +8,7 @@ const shuffleAnswers = (array: string[]) => {
     array[j] = temp;
   }
 
-  return array
+  return array;
 };
 
-export default shuffleAnswers
+export default shuffle;

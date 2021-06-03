@@ -8,7 +8,9 @@ import { questionState } from '../redux/question/QuestionReducer';
 import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION, ADD_TO_SUBMITTED_ANSWERS } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
+import { iQuestion } from '../types/Question';
 import { iQuiz } from '../types/Quiz';
+import shuffle from '../utils/shuffleAnswers';
 interface QuizProps {
   quiz: iQuiz
 }
@@ -20,6 +22,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
   const isSubmitted = useSelector<RootStore, questionState["isSubmitted"]>(state => state.question.isSubmitted);
   const dispatch = useDispatch();
   const totalQuestions = questions.length;
+  const shuffledQuestions = shuffle(questions)
   const isCorrect = submittedAnswer === questions[currentQuestion].correctAnswer;
 
   const handleClick = () => {
@@ -60,7 +63,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
         {
           isQuizFinished ?
             <QuizSummary totalQuestions={questions.length} />
-            : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
+            : <Question question={shuffledQuestions[currentQuestion] as iQuestion} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
         }
       </div>
       {
