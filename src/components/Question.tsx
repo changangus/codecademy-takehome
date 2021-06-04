@@ -13,11 +13,12 @@ export interface QuestionProps {
 const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, incorrectAnswers }, currentQuestion, isSubmitted, submittedAnswer }) => {
   let [answers, setAnswers] = useState<string[]>([]);
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
+    console.log(currentQuestion)
     const shuffledAnswers = shuffle([correctAnswer, ...incorrectAnswers]);
     setAnswers(shuffledAnswers as string[])
-  }, [correctAnswer, incorrectAnswers]);
+  }, [correctAnswer, incorrectAnswers, currentQuestion]);
 
   return (
     <div>

@@ -52,7 +52,18 @@ const QuizSummary: React.FC<QuizSummaryProps> = ({ totalQuestions }) => {
           quizzes[currentQuiz].questions.map((question, index) => (
             <div className="mb-1 text-sm sm:flex" key={index}>
               <p className="mr-4">{question.text}:</p>
-              <p className={`${submittedAnswers[index] === question.correctAnswer ? 'text-green-400' : 'text-red-400 line-through'}`}>{submittedAnswers[index]}</p>
+              {/* <p className={`${submittedAnswers[index] === question.correctAnswer ? 'text-green-400' : 'text-red-400 line-through'}`}>
+                {submittedAnswers[index] === question.correctAnswer ? 
+                submittedAnswers[index] : 
+                `${submittedAnswers[index]}, ${question.correctAnswer}`}
+              </p> */}
+              {submittedAnswers[index] === question.correctAnswer ? 
+              <p className="text-green-400">{submittedAnswers[index]}</p>
+              : 
+              <div className="flex">
+                <p className="text-red-400 line-through mr-4">{submittedAnswers[index]}</p>
+                <p className="text-green-400">Correct answer: {question.correctAnswer}</p>  
+              </div>}
             </div>
           ))
         }

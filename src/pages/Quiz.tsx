@@ -5,25 +5,23 @@ import Question from '../components/Question';
 import QuizSummary from '../components/QuizSummary';
 import { RESET_QUESTION_SUBMITTED, SET_SUBMITTED_ANSWER } from '../redux/question/DispatchTypes';
 import { questionState } from '../redux/question/QuestionReducer';
-import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION, ADD_TO_SUBMITTED_ANSWERS } from '../redux/quiz/DispatchTypes';
+import { INCREMENT_SCORE, QUIZ_FINISHED, NEXT_QUESTION, ADD_TO_SUBMITTED_ANSWERS, ADD_TO_CORRECT_ANSWERS } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
 import { iQuestion } from '../types/Question';
-import { iQuiz } from '../types/Quiz';
-import shuffle from '../utils/shuffleAnswers';
 interface QuizProps {
-  quiz: iQuiz
+  title: string,
+  questions: iQuestion[],
 }
 
-const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
+const Quiz: React.FC<QuizProps> = ({ title, questions }) => {
   const currentQuestion = useSelector<RootStore, quizState["currentQuestion"]>(state => state.quiz.currentQuestion)
   const isQuizFinished = useSelector<RootStore, quizState["isFinished"]>(state => state.quiz.isFinished);
   const submittedAnswer = useSelector<RootStore, questionState["submittedAnswer"]>(state => state.question.submittedAnswer);
   const isSubmitted = useSelector<RootStore, questionState["isSubmitted"]>(state => state.question.isSubmitted);
   const dispatch = useDispatch();
   const totalQuestions = questions.length;
-  const shuffledQuestions = shuffle(questions)
-  const isCorrect = submittedAnswer === questions[currentQuestion].correctAnswer;
+  const isCorrect = submittedAnswer === questions[currentQuestion].correctAnswer;  
 
   const handleClick = () => {
     // Add to submittedAnswers array:
@@ -31,6 +29,11 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
       type: ADD_TO_SUBMITTED_ANSWERS,
       payload: submittedAnswer
     });
+
+    dispatch({
+      type: ADD_TO_CORRECT_ANSWERS,
+      payload: questions[currentQuestion].correctAnswer
+    })
     // Check answer:
     if (isCorrect) {
       dispatch({
@@ -63,7 +66,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
         {
           isQuizFinished ?
             <QuizSummary totalQuestions={questions.length} />
-            : <Question question={shuffledQuestions[currentQuestion] as iQuestion} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
+            : <Question question={questions[currentQuestion] as iQuestion} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
         }
       </div>
       {
