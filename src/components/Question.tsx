@@ -16,7 +16,7 @@ const Question: React.FC<QuestionProps> = ({ question: { text, correctAnswer, in
 
   useEffect(() => {
     const shuffledAnswers = shuffleAnswers([correctAnswer, ...incorrectAnswers]);
-    setAnswers(shuffledAnswers)
+    setAnswers(shuffledAnswers as string[])
   }, [correctAnswer, incorrectAnswers]);
 
   return (

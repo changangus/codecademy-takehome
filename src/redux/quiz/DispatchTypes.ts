@@ -8,11 +8,11 @@ export const ADD_TO_SUBMITTED_ANSWERS = 'ADD_TO_SUBMITTED_ANSWERS';
 
 interface NextQuiz {
   type: typeof NEXT_QUIZ;
-}
+};
 
 interface NextQuestion {
   type: typeof NEXT_QUESTION;
-}
+};
 
 interface FirstQuiz {
   type: typeof FIRST_QUIZ;

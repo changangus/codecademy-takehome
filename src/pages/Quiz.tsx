@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import CustomButton from '../components/CustomButton';
 import Question from '../components/Question';
 import QuizSummary from '../components/QuizSummary';
