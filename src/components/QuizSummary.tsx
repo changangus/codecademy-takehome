@@ -1,17 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessage } from '../data/messages';
-import { quizzes } from '../data/quizzes';
 import { FIRST_QUIZ, NEXT_QUIZ, QUIZ_START } from '../redux/quiz/DispatchTypes';
 import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
+import { iQuiz } from '../types/Quiz';
 import CustomButton from './CustomButton';
 
 interface QuizSummaryProps {
-  totalQuestions: number
+  totalQuestions: number,
+  quizzes: iQuiz[],
 }
 
-const QuizSummary: React.FC<QuizSummaryProps> = ({ totalQuestions }) => {
+const QuizSummary: React.FC<QuizSummaryProps> = ({ totalQuestions, quizzes }) => {
   const correctAnswers = useSelector<RootStore, quizState["correctAnswers"]>(state => state.quiz.correctAnswers);
   const currentQuiz = useSelector<RootStore, quizState["currentQuiz"]>((state) => state.quiz.currentQuiz);
   const submittedAnswers = useSelector<RootStore, quizState["submittedAnswers"]>((state) => state.quiz.submittedAnswers);

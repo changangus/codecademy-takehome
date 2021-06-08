@@ -14,7 +14,7 @@ export const getMoreQuizzes = () => {
   return new Promise((resolve) => setTimeout(resolve(moreQuizzes), 2000));
 };
 
-export const quizzes = [
+const quizzes = [
   {
     title: 'Basics of HTML',
     questions: [

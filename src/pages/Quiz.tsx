@@ -10,10 +10,11 @@ import { quizState } from '../redux/quiz/QuizReducer';
 import { RootStore } from '../redux/store';
 import { iQuiz } from '../types/Quiz';
 interface QuizProps {
-  quiz: iQuiz
+  quiz: iQuiz,
+  quizzes: iQuiz[],
 }
 
-const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
+const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions }, quizzes }) => {
   const currentQuestion = useSelector<RootStore, quizState["currentQuestion"]>(state => state.quiz.currentQuestion)
   const isQuizFinished = useSelector<RootStore, quizState["isFinished"]>(state => state.quiz.isFinished);
   const submittedAnswer = useSelector<RootStore, questionState["submittedAnswer"]>(state => state.question.submittedAnswer);
@@ -59,7 +60,7 @@ const Quiz: React.FC<QuizProps> = ({ quiz: { title, questions } }) => {
         <h1 className="flex justify-center text-xl mb-4 sm:text-5xl w-full">{title}</h1>
         {
           isQuizFinished ?
-            <QuizSummary totalQuestions={questions.length} />
+            <QuizSummary totalQuestions={questions.length} quizzes={quizzes}/>
             : <Question question={questions[currentQuestion]} currentQuestion={currentQuestion} isSubmitted={isSubmitted} submittedAnswer={submittedAnswer} />
         }
       </div>
