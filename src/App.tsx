@@ -4,9 +4,11 @@ import { getMoreQuizzes, getQuizzes } from './data/quizzes';
 import { useSelector } from 'react-redux';
 import { RootStore } from './redux/store';
 import { quizState } from './redux/quiz/QuizReducer';
+import { iQuiz } from './types/Quiz';
 
 const App: React.FC = () => {
-  const [quizzes, setQuizzes] = useState<any[]>([]);
+  const [initialApiQuizzes, setInitialApiQuizzes] = useState<iQuiz[]>([])
+  const [quizzes, setQuizzes] = useState<iQuiz[]>([]);
   const currentQuiz = useSelector<RootStore, quizState['currentQuiz']>(
     (state) => state.quiz.currentQuiz,
   );
@@ -16,6 +18,7 @@ const App: React.FC = () => {
       try {
         const quizData = await getQuizzes();
         setQuizzes(quizData);
+        setInitialApiQuizzes(quizData);
       } catch (error) {
         console.log(error);
       }
@@ -34,9 +37,8 @@ const App: React.FC = () => {
       }
     };
     console.log(currentQuiz, quizzes);
-    // TODO
-    // see if there is a better conditional that is more dynamic:
-    if (currentQuiz + 1 === 2) {
+    
+    if (currentQuiz + 1 === initialApiQuizzes.length) {
       getMoreQuizzesCall();
       console.log(quizzes);
     }
